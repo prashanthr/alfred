@@ -17,13 +17,18 @@ class EmailModule extends ModuleBase {
   }
 
   async send (data) {
-    const sources = keys(this.config.source)
-    const sendEmail = async (source) => {
-      const module = sourceModuleMap[source]
-      await module.sendEmail(data)
+    try {
+      const sources = keys(this.config.source)
+      const sendEmail = async (source) => {
+        const module = new sourceModuleMap[source](this.config.source[source])
+        await module.send(data)
+      }
+      let promises = sources.map(source => sendEmail(source))
+      await Promise.all(promises)
+    } catch (err) {
+      debug('Error in email module', err)
+      throw new Error(err)
     }
-    let promises = sources.map(source => sendEmail(source))
-    await Promise.all(promises)
   }
 }
 

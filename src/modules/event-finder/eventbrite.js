@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios'
+import config from 'config'
 import _debug from 'debug'
 var debug = _debug('event-finder:eventbrite')
 
@@ -9,7 +10,7 @@ const endpoints = {
   eventSearch: `${apiBaseUrl}/events/search`
 }
 
-class Eventbrite {
+export default class Eventbrite {
   constructor (config) {
     this.pat = config.pat
   }
@@ -25,8 +26,6 @@ class Eventbrite {
       params: params
     })
     debug('firstPage', firstPage)
-    return firstPage
+    return firstPage.data
   }
 }
-
-export default new Eventbrite()

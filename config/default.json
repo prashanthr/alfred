@@ -18,7 +18,11 @@
       },
       "source": {
         "mailgun": {
-          
+          "domain": ":domain",
+          "apiKey": ":apiKey",
+          "from": ":from",
+          "to": ":to",
+          "subject": ":subject"
         }
       }
     }

@@ -13,7 +13,7 @@ const sourceModuleMap = {
 class EventFinderModule extends ModuleBase {
   constructor (key) {
     super(key || 'event-finder')
-    this.config = config.modules['event-finder']
+    this.config = config.module['event-finder']
   }
 
   async perform () {
@@ -22,7 +22,7 @@ class EventFinderModule extends ModuleBase {
       debug(`No sources defined. Nothing to perform.`)
     }
     const findEvents = async (source) => {
-      const module = sourceModuleMap[source] // new (sourceModuleMap[source])()
+      const module = new (sourceModuleMap[source])(this.config.source[source])
       const results = await module.findEvents()
       return results
     }

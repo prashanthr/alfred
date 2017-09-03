@@ -5,7 +5,7 @@ import MailgunClient from 'mailgun-js'
 import _debug from 'debug'
 var debug = _debug('email:mailgun')
 
-class Mailgun {
+export default class Mailgun {
   constructor (config) {
     this.config = config
     this.client = new MailgunClient({
@@ -19,9 +19,7 @@ class Mailgun {
       from: this.config.from,
       to: this.config.to,
       subject: this.config.subject,
-      text: data
+      text: JSON.stringify(data)
     })
   }
 }
-
-export default new Mailgun()
