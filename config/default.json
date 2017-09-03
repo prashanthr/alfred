@@ -1,0 +1,27 @@
+{
+  "port": 7777,
+  "settings": {
+  },
+  "module": {
+    "event-finder": {
+      "settings": {
+      },
+      "source": {
+        "eventbrite": {
+          "pat": ":pat"
+        }
+      }
+    },
+    "email": {
+      "settings": {
+
+      },
+      "source": {
+        "mailgun": {
+          
+        }
+      }
+    }
+
+  }
+}
