@@ -22,10 +22,24 @@ export default class Eventbrite {
       sort_by: 'date',
       categories: '103,110,105,113,104,102,109,116'
     }
-    const firstPage = await axios.get(endpoints.eventSearch, {
-      params: params
-    })
-    debug('firstPage', firstPage)
-    return firstPage.data
+    const fetchData = async (params) => {
+      const response = await axios.get(endpoints.eventSearch, {
+        params: params
+      })
+      return response.data
+    }
+    const firstPage = await fetchData(params)
+    let continuation = firstPage.continuation
+    let events = firstPage.events || []
+
+    while (continuation) {
+      let next = await fetchData({
+        continuation
+      })
+      events = [...events, next.events || []]
+      continuation = next.continuation
+    }
+    return events
+    // return pick(events, ['']
   }
 }
