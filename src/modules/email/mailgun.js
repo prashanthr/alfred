@@ -2,6 +2,7 @@
 import config from 'config'
 import axios from 'axios'
 import MailgunClient from 'mailgun-js'
+import TemplateBuilder from './template'
 import _debug from 'debug'
 var debug = _debug('email:mailgun')
 
@@ -12,6 +13,7 @@ export default class Mailgun {
       apiKey: config.apiKey,
       domain: config.domain
     })
+    this.templateBuilder = new TemplateBuilder()
   }
 
   async send (data) {
@@ -20,6 +22,13 @@ export default class Mailgun {
       to: this.config.to,
       subject: this.config.subject,
       text: JSON.stringify(data)
+    })
+    // HTML test
+    await this.client.messages().send({
+      from: this.config.from,
+      to: this.config.to,
+      subject: this.config.subject,
+      html: this.templateBuilder.build('event', data[0])
     })
   }
 }
