@@ -1,6 +1,8 @@
 // @flow
 import fs from 'fs'
 import path from 'path'
+import _debug from 'debug'
+var debug = _debug('email-template')
 
 class TemplateBuilder {
   build (type: string, data: Object): string {
@@ -13,24 +15,28 @@ class TemplateBuilder {
   }
 
   async buildEventTemplate (data) {
-    const templateRoot = './template/events'
+    const templateRoot = path.join(__dirname, 'template/events')
     const eventsTemplatePath = path.join(templateRoot, 'events.html')
     const eventTemplatePath = path.join(templateRoot, 'event.html')
-    const eventTemplate = fs.readFile(eventTemplatePath, 'utf-8')
+    debug('eventTemplatePath', eventTemplatePath)
+    const eventTemplate = await fs.readFileSync(eventTemplatePath, 'utf-8')
+    debug('eventTemplate', eventTemplate)
     let eventsHTML = ''
     const replaceEvent = (event) => {
+      debug('adding event to html', event)
+      if (!event) return ''
       return eventTemplate
         .replace(':name', event.name.text)
         .replace(':description', event.description.text)
         .replace(':date', `${event.start.local} - ${event.end.local}`)
-        .replace(':link', event.url)
+        .replace(':url', event.url)
     }
     data.forEach(event => {
       eventsHTML += replaceEvent(event)
     })
-    const template = await fs.readFile(eventsTemplatePath, 'utf-8')
-    template.replace(':events', eventsHTML)
-    return template
+    debug('eventsHTML', eventsHTML)
+    const template = await fs.readFileSync(eventsTemplatePath, 'utf-8')
+    return template.replace(':events', eventsHTML)
   }
 }
 

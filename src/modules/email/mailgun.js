@@ -28,7 +28,7 @@ export default class Mailgun {
       from: this.config.from,
       to: this.config.to,
       subject: this.config.subject,
-      html: this.templateBuilder.build('event', data[0])
+      html: await this.templateBuilder.build('event', data[0])
     })
   }
 }
