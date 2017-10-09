@@ -18,10 +18,11 @@ class TemplateBuilder {
     const templateRoot = path.join(__dirname, 'template/events')
     const eventsTemplatePath = path.join(templateRoot, 'events.html')
     const eventTemplatePath = path.join(templateRoot, 'event.html')
-    debug('eventTemplatePath', eventTemplatePath)
+    const headerPath = path.join(templateRoot, 'header.html')
+    const footerPath = path.join(templateRoot, 'footer.html')
     const eventTemplate = await fs.readFileSync(eventTemplatePath, 'utf-8')
-    debug('eventTemplate', eventTemplate)
     let eventsHTML = ''
+    
     const replaceEvent = (event) => {
       debug('adding event to html', event)
       if (!event) return ''
@@ -31,12 +32,18 @@ class TemplateBuilder {
         .replace(':date', `${event.start.local} - ${event.end.local}`)
         .replace(':url', event.url)
     }
+    
     data.forEach(event => {
       eventsHTML += replaceEvent(event)
     })
-    debug('eventsHTML', eventsHTML)
+    
     const template = await fs.readFileSync(eventsTemplatePath, 'utf-8')
-    return template.replace(':events', eventsHTML)
+    const header = await fs.readFileSync(headerPath, 'utf-8')
+    const footer = await fs.readFileSync(footerPath, 'utf-8')
+    return template
+      .replace(':events', eventsHTML)
+      .replace(':header', header)
+      .replace(':footer', footer)
   }
 }
 

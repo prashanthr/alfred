@@ -16,19 +16,25 @@ export default class Mailgun {
     this.templateBuilder = new TemplateBuilder()
   }
 
-  async send (data) {
+  async send (data, bodyFormat = 'html') {
+    let bodyParams = {}
+    switch (bodyFormat) {
+      case 'html':
+        bodyParams = {
+          html: await this.templateBuilder.build('event', data[0])
+        }
+        break
+      default:
+        bodyParams = {
+          text: JSON.stringify(data)
+        }
+        break
+    }
     await this.client.messages().send({
       from: this.config.from,
       to: this.config.to,
       subject: this.config.subject,
-      text: JSON.stringify(data)
-    })
-    // HTML test
-    await this.client.messages().send({
-      from: this.config.from,
-      to: this.config.to,
-      subject: this.config.subject,
-      html: await this.templateBuilder.build('event', data[0])
+      ...bodyParams
     })
   }
 }

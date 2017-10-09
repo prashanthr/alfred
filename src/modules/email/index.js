@@ -21,7 +21,7 @@ class EmailModule extends ModuleBase {
       const sources = keys(this.config.source)
       const sendEmail = async (source) => {
         const module = new sourceModuleMap[source](this.config.source[source])
-        await module.send(data)
+        await module.send(data, this.config.settings.bodyFormat)
       }
       let promises = sources.map(source => sendEmail(source))
       await Promise.all(promises)

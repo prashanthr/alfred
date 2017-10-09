@@ -14,7 +14,7 @@
     },
     "email": {
       "settings": {
-
+        "bodyFormat": "html"
       },
       "source": {
         "mailgun": {
