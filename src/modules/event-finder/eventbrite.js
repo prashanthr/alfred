@@ -39,7 +39,7 @@ export default class Eventbrite {
       events = [...events, next.events || []]
       continuation = next.continuation
     }
-    return events
+    return events[0]
     // return pick(events, ['']
   }
 }

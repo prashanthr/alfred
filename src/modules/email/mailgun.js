@@ -21,7 +21,9 @@ export default class Mailgun {
     switch (bodyFormat) {
       case 'html':
         bodyParams = {
-          html: await this.templateBuilder.build('event', data[0])
+          html: await this
+            .templateBuilder
+            .build('event', data)
         }
         break
       default:
