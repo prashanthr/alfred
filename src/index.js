@@ -1,18 +1,14 @@
 var express = require('express')
 var app = express()
+import publicApi from './api/public'
+import eventApi from './api/event'
 import _debug from 'debug'
 var debug = _debug('alfred-server')
-import EventFinder from './modules/event-finder'
 
-app.get('/', (req, res) => {
-  res.send('Hello Alfred!')
-})
-
-app.get('/event', async (req, res) => {
-  await EventFinder.perform()
-  res.send('done')
-})
+// API
+publicApi(app)
+eventApi(app)
 
 app.listen(7777, function () {
-  console.log('Example app listening on port 7777!')
+  debug('Example app listening on port 7777!')
 })
