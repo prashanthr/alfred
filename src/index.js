@@ -1,10 +1,10 @@
-var express = require('express')
-var app = express()
+import express from 'express'
 import config from 'config'
 import publicApi from './api/public'
 import eventApi from './api/event'
 import _debug from 'debug'
-var debug = _debug('alfred-server')
+const debug = _debug('alfred-server')
+const app = express()
 
 // API
 publicApi(app)

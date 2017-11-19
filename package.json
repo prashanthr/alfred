@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "bin/server.sh"
+    "start": "bin/server.sh",
+    "start-scheduler": "bin/scheduler.sh",
+    "start-worker": "bin/worker.sh"
   },
   "repository": {
     "type": "git",
