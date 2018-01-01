@@ -21,12 +21,12 @@ async function scheduler () {
     try {
       const cronJob = new CronJob({
         cronTime: task.schedule,
-        onTick: function () {
+        onTick: async () => {
           debug(
             `Running ${task.type} at ${moment().format(dateFormat)}`
           )
           axios
-            .post(`${config.apiBaseUri}/job`, {
+            .post(`${config.apiBaseUri}/jobs/create`, {
               type: task.type,
               params: task.params,
               metadata: {

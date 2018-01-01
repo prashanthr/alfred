@@ -3,6 +3,6 @@
     "type": "event-finder",
     "params": {},
     "schedule": "0 0 0 * * *",
-    "runOnInit": false
+    "runOnInit": true
   }
 }

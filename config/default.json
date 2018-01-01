@@ -1,6 +1,6 @@
 {
   "port": 7777,
-  "apiBaseUri": "localhost:777/api",
+  "apiBaseUri": "http://localhost:7777/api",
   "settings": {
   },
   "module": {

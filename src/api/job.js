@@ -1,12 +1,16 @@
 import cuid from 'cuid'
+import _debug from 'debug'
+const debug = _debug('api:jobs')
 
 let jobs = []
 
 module.exports = app => {
   app.post('/api/jobs/create', async (req, res) => {
-    if (!req.body.type) {
-      res.status(400).send('No job type specified!')
-    }
+    debug('here')
+    // if (!req.body.type) {
+    //   return res.status(400).send('No job type specified!')
+    // }
+    debug('here2')
     jobs.push({
       id: cuid(),
       groupId: cuid(),
@@ -16,7 +20,8 @@ module.exports = app => {
       createdAt: new Date(),
       updatedAt: new Date()
     })
-    res.send('done')
+    debug('added ', jobs)
+    return res.send('done')
   })
   
   app.get('/api/jobs/next', async (req, res) => {
