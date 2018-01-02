@@ -36,8 +36,7 @@ async function scheduler () {
             })
             .then(result => {
               debug(
-                `Added a job to the queue for type ${task.type} at ${moment().format(dateFormat)}. 
-                Result: ${result.data}`
+                `Added a job to the queue for type ${task.type} at ${moment().format(dateFormat)}.\nResult: ${result.data}`
               )
             })
             .catch(error => {

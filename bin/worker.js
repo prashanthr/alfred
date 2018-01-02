@@ -8,7 +8,9 @@ const debug = _debug('worker')
 
 const listen = (callback) => {
   var listener = async () => {
+    debug('here')
     var message = await axios.get(`${config.apiBaseUrl}/jobs/next`)
+    debug('msg', message)
     if (message.data) {
       callback(message.data, listener)
     } else {
@@ -26,7 +28,9 @@ async function work () {
   const processingFunction = async (message, next) => {
     try {
       const worker = getTaskWorker(message.type)
+      debug('Retrieved worker', worker)
       await worker.start()
+      debug('Done.')
       next()
     } catch (err) {
       debug('Error while performing job', err)
@@ -34,6 +38,7 @@ async function work () {
     }
   }
   const workman = listen(processingFunction)
+  debug('workman', workman)
   workman.start()
 }
 
