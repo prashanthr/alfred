@@ -3,6 +3,7 @@ import config from 'config'
 import axios from 'axios'
 import _debug from 'debug'
 import getTaskWorker from '../src/job/get-task-worker'
+import async from 'async'
 
 const debug = _debug('worker')
 
@@ -60,7 +61,19 @@ async function work2 () {
       debug('Error while performing job', err)
     }
   }
-  setTimeout(job, 0)
+  async.forever(
+    async (next) => {
+      await job()
+      // Repeat after the delay
+      setTimeout(async () => {
+        await job()
+        next()
+      }, 5000)
+    },
+    (err) => {
+      console.error(err)
+    }
+  )
 }
 
 work2().catch(err => {
